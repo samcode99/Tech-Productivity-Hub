@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Category - Tech & Productivity Hub</title>
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --background-color: #ffffff;
+            --text-color: #1f2937;
+            --border-color: #e5e7eb;
+            --card-background: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--background-color);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: var(--background-color);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        /* Category Header */
+        .category-header {
+            background: linear-gradient(135deg, var(--primary-color), #1d4ed8);
+            color: white;
+            padding: 4rem 0;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .category-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .category-description {
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+            opacity: 0.9;
+        }
+
+        /* Filter Section */
+        .filters {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-button {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            background: var(--card-background);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-button.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        /* Content Grid */
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .card {
+            background: var(--card-background);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .card-content {
+            padding: 1.5rem;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-color);
+        }
+
+        .card-text {
+            color: #6b7280;
+            margin-bottom: 1rem;
+        }
+
+        .card-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.875rem;
+            color: #6b7280;
+        }
+
+        .card-category {
+            background: #e5e7eb;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin: 2rem 0;
+        }
+
+        .pagination-button {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            background: var(--card-background);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .pagination-button.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        /* Dark Mode Styles */
+        body.dark-mode {
+            --background-color: #1a1a1a;
+            --text-color: #ffffff;
+            --card-background: #2d2d2d;
+            --border-color: #404040;
+        }
+
+        body.dark-mode .card {
+            background-color: var(--card-background);
+        }
+
+        body.dark-mode .nav-links a {
+            color: #ffffff;
+        }
+
+        body.dark-mode .filter-button {
+            background: var(--card-background);
+            color: var(--text-color);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .category-title {
+                font-size: 2rem;
+            }
+
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .photo-preview {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            display: none;
+        }
+
+        .photo-preview img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .photo-preview.active {
+            display: block;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            display: none;
+        }
+
+        .overlay.active {
+            display: block;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 500;
+            transition: background-color 0.2s;
+            border: none;
+            cursor: pointer;
+            margin-top: 1rem;
+        }
+
+        .button:hover {
+            background-color: var(--secondary-color);
+        }
+
+        /* Add these new styles */
+        .photo-editor {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            display: none;
+            width: 90%;
+            max-width: 800px;
+        }
+
+        .photo-editor.active {
+            display: block;
+        }
+
+        .editor-controls {
+            display: flex;
+            gap: 1rem;
+            margin: 1rem 0;
+            flex-wrap: wrap;
+        }
+
+        .filter-option {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-option:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .filter-option.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .photo-preview {
+            width: 100%;
+            max-height: 60vh;
+            object-fit: contain;
+        }
+
+        .upload-options {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .upload-option {
+            flex: 1;
+            padding: 1rem;
+            border: 2px dashed var(--border-color);
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .upload-option:hover {
+            border-color: var(--primary-color);
+            background: rgba(37, 99, 235, 0.1);
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .photo-editor {
+                width: 95%;
+                padding: 10px;
+            }
+
+            .editor-controls {
+                flex-direction: column;
+            }
+
+            .filter-option {
+                width: 100%;
+                text-align: center;
+            }
+
+            .upload-options {
+                flex-direction: column;
+            }
+
+            .card {
+                margin: 1rem 0;
+            }
+
+            .category-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-links {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                background: var(--card-background);
+                padding: 1rem;
+                display: flex;
+                justify-content: space-around;
+                box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            }
+
+            .nav-links a {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                font-size: 0.8rem;
+            }
+
+            .nav-links a::before {
+                content: '';
+                font-size: 1.5rem;
+                margin-bottom: 0.25rem;
+            }
+
+            .nav-links a[href="index.html"]::before { content: '🏠'; }
+            .nav-links a[href="category.html"]::before { content: '📑'; }
+            .nav-links a[href="#newsletter"]::before { content: '📧'; }
+
+            .filters {
+                overflow-x: auto;
+                padding-bottom: 1rem;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .filter-button {
+                white-space: nowrap;
+            }
+        }
+
+        /* Loading Animation */
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 1rem auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="nav container">
+            <a href="index.html" class="logo">Tech & Productivity Hub</a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="#articles">Articles</a>
+                <a href="#newsletter">Newsletter</a>
+            </div>
+        </nav>
+    </header>
+
+    <section class="category-header">
+        <div class="container">
+            <h1 class="category-title">Productivity Tips</h1>
+            <p class="category-description">Discover the latest tools, techniques, and strategies to boost your productivity and achieve more in less time.</p>
+        </div>
+    </section>
+
+    <main class="container">
+        <div class="filters">
+            <button class="filter-button active">All</button>
+            <button class="filter-button">Time Management</button>
+            <button class="filter-button">Tools & Apps</button>
+            <button class="filter-button">Workflow</button>
+            <button class="filter-button">Mindset</button>
+        </div>
+
+        <div class="content-grid">
+            <!-- Article Cards -->
+            <article class="card" onclick="window.location.href='article.html'">
+                <img src="https://source.unsplash.com/random/800x600?productivity" alt="Productivity" class="card-image">
+                <div class="card-content">
+                    <h2 class="card-title">10 Time Management Techniques That Actually Work</h2>
+                    <p class="card-text">Learn proven strategies to manage your time effectively and boost your productivity.</p>
+                    <div class="card-meta">
+                        <span class="card-category">Time Management</span>
+                        <span>5 min read</span>
+                    </div>
+                    <button class="button" onclick="event.stopPropagation(); capturePhoto(this)">Take Photo</button>
+                </div>
+            </article>
+
+            <article class="card" onclick="window.location.href='article.html'">
+                <img src="https://source.unsplash.com/random/800x600?workflow" alt="Workflow" class="card-image">
+                <div class="card-content">
+                    <h2 class="card-title">Building the Perfect Workflow</h2>
+                    <p class="card-text">Create an efficient workflow that helps you stay focused and get more done.</p>
+                    <div class="card-meta">
+                        <span class="card-category">Workflow</span>
+                        <span>7 min read</span>
+                    </div>
+                    <button class="button" onclick="event.stopPropagation(); capturePhoto(this)">Take Photo</button>
+                </div>
+            </article>
+
+            <article class="card" onclick="window.location.href='article.html'">
+                <img src="https://source.unsplash.com/random/800x600?apps" alt="Apps" class="card-image">
+                <div class="card-content">
+                    <h2 class="card-title">Top 5 Productivity Apps for 2024</h2>
+                    <p class="card-text">Discover the most effective productivity apps that will help you stay organized.</p>
+                    <div class="card-meta">
+                        <span class="card-category">Tools & Apps</span>
+                        <span>4 min read</span>
+                    </div>
+                    <button class="button" onclick="event.stopPropagation(); capturePhoto(this)">Take Photo</button>
+                </div>
+            </article>
+        </div>
+
+        <div class="pagination">
+            <button class="pagination-button active">1</button>
+            <button class="pagination-button">2</button>
+            <button class="pagination-button">3</button>
+            <button class="pagination-button">Next →</button>
+        </div>
+    </main>
+
+    <script>
+        // Filter functionality
+        const filterButtons = document.querySelectorAll('.filter-button');
+        const cards = document.querySelectorAll('.card');
+
+        filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Remove active class from all buttons
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                // Add active class to clicked button
+                button.classList.add('active');
+
+                const filter = button.textContent.toLowerCase();
+                
+                cards.forEach(card => {
+                    const category = card.querySelector('.card-category').textContent.toLowerCase();
+                    if (filter === 'all' || category === filter) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // Pagination functionality
+        const paginationButtons = document.querySelectorAll('.pagination-button');
+        
+        paginationButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                paginationButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                // Here you would typically load new content
+            });
+        });
+
+        // Dark mode toggle
+        const darkModeToggle = document.createElement('button');
+        darkModeToggle.innerHTML = '🌙';
+        darkModeToggle.className = 'dark-mode-toggle';
+        darkModeToggle.style.cssText = `
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            z-index: 1000;
+        `;
+
+        document.body.appendChild(darkModeToggle);
+
+        darkModeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            darkModeToggle.innerHTML = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
+        });
+
+        // Enhanced photo capture and editing functionality
+        async function capturePhoto(button) {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                const video = document.createElement('video');
+                video.srcObject = stream;
+                video.play();
+
+                // Create editor container
+                const editor = document.createElement('div');
+                editor.className = 'photo-editor';
+                
+                const overlay = document.createElement('div');
+                overlay.className = 'overlay';
+                
+                // Create editor content
+                editor.innerHTML = `
+                    <div class="editor-controls">
+                        <button class="filter-option" data-filter="normal">Normal</button>
+                        <button class="filter-option" data-filter="grayscale">Grayscale</button>
+                        <button class="filter-option" data-filter="sepia">Sepia</button>
+                        <button class="filter-option" data-filter="vintage">Vintage</button>
+                        <button class="filter-option" data-filter="blur">Blur</button>
+                    </div>
+                    <canvas id="photoCanvas"></canvas>
+                    <div class="upload-options">
+                        <div class="upload-option" onclick="uploadToGoogle()">
+                            <h3>Upload to Google Photos</h3>
+                            <p>Save your photo to Google Photos</p>
+                        </div>
+                        <div class="upload-option" onclick="downloadPhoto()">
+                            <h3>Download</h3>
+                            <p>Save to your device</p>
+                        </div>
+                    </div>
+                `;
+                
+                document.body.appendChild(editor);
+                document.body.appendChild(overlay);
+                
+                // Show editor
+                editor.classList.add('active');
+                overlay.classList.add('active');
+                
+                const canvas = document.getElementById('photoCanvas');
+                const context = canvas.getContext('2d');
+                
+                // Handle filters
+                document.querySelectorAll('.filter-option').forEach(button => {
+                    button.addEventListener('click', () => {
+                        document.querySelectorAll('.filter-option').forEach(btn => btn.classList.remove('active'));
+                        button.classList.add('active');
+                        applyFilter(button.dataset.filter);
+                    });
+                });
+
+                // Capture photo
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                context.drawImage(video, 0, 0);
+                
+                // Clean up
+                stream.getTracks().forEach(track => track.stop());
+                
+            } catch (error) {
+                console.error('Error accessing camera:', error);
+                alert('Error accessing camera');
+            }
+        }
+
+        // Apply photo filters
+        function applyFilter(filter) {
+            const canvas = document.getElementById('photoCanvas');
+            const context = canvas.getContext('2d');
+            const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+            const data = imageData.data;
+
+            switch(filter) {
+                case 'grayscale':
+                    for (let i = 0; i < data.length; i += 4) {
+                        const avg = (data[i] + data[i + 1] + data[i + 2]) / 3;
+                        data[i] = avg;
+                        data[i + 1] = avg;
+                        data[i + 2] = avg;
+                    }
+                    break;
+                case 'sepia':
+                    for (let i = 0; i < data.length; i += 4) {
+                        const r = data[i];
+                        const g = data[i + 1];
+                        const b = data[i + 2];
+                        data[i] = (r * 0.393) + (g * 0.769) + (b * 0.189);
+                        data[i + 1] = (r * 0.349) + (g * 0.686) + (b * 0.168);
+                        data[i + 2] = (r * 0.272) + (g * 0.534) + (b * 0.131);
+                    }
+                    break;
+                case 'vintage':
+                    for (let i = 0; i < data.length; i += 4) {
+                        data[i] *= 1.2;
+                        data[i + 1] *= 0.8;
+                        data[i + 2] *= 0.8;
+                    }
+                    break;
+                case 'blur':
+                    // Simple box blur
+                    const temp = new Uint8ClampedArray(data);
+                    for (let i = 0; i < data.length; i += 4) {
+                        const x = (i / 4) % canvas.width;
+                        const y = Math.floor((i / 4) / canvas.width);
+                        if (x > 0 && x < canvas.width - 1 && y > 0 && y < canvas.height - 1) {
+                            data[i] = (temp[i - 4] + temp[i] + temp[i + 4]) / 3;
+                            data[i + 1] = (temp[i - 3] + temp[i + 1] + temp[i + 5]) / 3;
+                            data[i + 2] = (temp[i - 2] + temp[i + 2] + temp[i + 6]) / 3;
+                        }
+                    }
+                    break;
+            }
+            
+            context.putImageData(imageData, 0, 0);
+        }
+
+        // Upload to Google Photos
+        async function uploadToGoogle() {
+            const canvas = document.getElementById('photoCanvas');
+            canvas.toBlob(async (blob) => {
+                const formData = new FormData();
+                formData.append('photo', blob, 'photo.jpg');
+                
+                try {
+                    // Show loading spinner
+                    const spinner = document.createElement('div');
+                    spinner.className = 'loading-spinner';
+                    document.querySelector('.photo-editor').appendChild(spinner);
+                    
+                    // Here you would implement the actual Google Photos upload
+                    // For now, we'll simulate a delay
+                    await new Promise(resolve => setTimeout(resolve, 2000));
+                    
+                    spinner.remove();
+                    alert('Photo uploaded to Google Photos successfully!');
+                } catch (error) {
+                    console.error('Error uploading photo:', error);
+                    alert('Error uploading photo');
+                }
+            }, 'image/jpeg');
+        }
+
+        // Download photo
+        function downloadPhoto() {
+            const canvas = document.getElementById('photoCanvas');
+            const link = document.createElement('a');
+            link.download = 'photo.jpg';
+            link.href = canvas.toDataURL('image/jpeg');
+            link.click();
+        }
+
+        // Add touch support for mobile
+        document.addEventListener('touchstart', function() {}, {passive: true});
+
+        // Add swipe gestures for mobile
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        document.addEventListener('touchstart', e => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, {passive: true});
+
+        document.addEventListener('touchend', e => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        }, {passive: true});
+
+        function handleSwipe() {
+            const swipeThreshold = 50;
+            if (touchEndX < touchStartX - swipeThreshold) {
+                // Swipe left
+                const nextButton = document.querySelector('.pagination-button.active').nextElementSibling;
+                if (nextButton) nextButton.click();
+            }
+            if (touchEndX > touchStartX + swipeThreshold) {
+                // Swipe right
+                const prevButton = document.querySelector('.pagination-button.active').previousElementSibling;
+                if (prevButton) prevButton.click();
+            }
+        }
+    </script>
+</body>
+</html> 
